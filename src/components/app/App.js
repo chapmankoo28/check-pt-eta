@@ -18,7 +18,7 @@ export default function App() {
                     <BrowserRouter>
                         <Banner />
                         <Routes>
-                            <Route index path="/check-pt-eta">
+                            <Route path="/check-pt-eta">
                                 <Route index element={<Home />} />
                                 <Route path="/bus" element={<Bus />}>
                                     <Route index element={<Bus />} />
