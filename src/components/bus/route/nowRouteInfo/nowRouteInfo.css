@@ -1,0 +1,28 @@
+#now-route-num {
+    font-family: "Oswald";
+    font-size: 4rem;
+    font-weight: 300;
+}
+
+#now-route-dest {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+#icon-swap_vert {
+    font-size: 3rem;
+}
+
+#icon-swap_vert[state="loading"] {
+    animation: rotate 0.2s ease-in-out;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}

@@ -1,0 +1,20 @@
+#icon-theme {
+    font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 20;
+    font-size: 3rem;
+}
+
+#nav-bus,
+#nav-metro,
+#nav-title {
+    font-size: 1.5rem;
+}
+
+#switchThemeBut {
+    background-color: transparent;
+}
+
+.active{
+    padding: 8px;
+    background-color:var(--indigo-5);
+    border-radius: 18px;
+}
