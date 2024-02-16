@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Container, Theme } from "@radix-ui/themes";
+import Home from "../home/home";
 import Banner from "../banner/banner";
 import Bus from "../bus/bus";
 import Metro from "../metro/metro";
@@ -10,8 +11,6 @@ import "./theme-config.css";
 import "./App.css";
 
 export default function App() {
-    // const [nowTheme, setNowTheme] = useState("dark");
-
     return (
         <>
             <Theme appearance="dark" accentColor="indigo" radius="large" panelBackground="translucent" scaling="100%">
@@ -19,7 +18,7 @@ export default function App() {
                     <BrowserRouter>
                         <Banner />
                         <Routes>
-                            <Route index element={<Navigate to="/bus" />} />
+                            <Route index element={<Home />} />
                             <Route path="/bus" element={<Bus />}>
                                 <Route index element={<Bus />} />
                                 <Route path=":co/:route/:bound/:service" element={<Bus />} />

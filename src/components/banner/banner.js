@@ -4,10 +4,6 @@ import { Container, Text, Separator, Flex, Heading } from "@radix-ui/themes";
 import "./banner.css";
 
 export default function Banner() {
-    // const switchTheme = useCallback(() => {
-    //     setNowTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-    // }, [setNowTheme]);
-
     return (
         <>
             <Container size="2" id="banner" mt="1" mb="8">
@@ -20,23 +16,10 @@ export default function Banner() {
                         <NavLink to="/metro">
                             <Text id="nav-metro">🚇鐡路</Text>
                         </NavLink>
-                        {/* <Tooltip content="切換主題">
-                            <IconButton
-                                id="switchThemeBut"
-                                variant="ghost"
-                                onClick={() => switchTheme()}
-                                size="1"
-                                color="gray"
-                            >
-                                <Text trim="both" as="span" className="material-symbols-outlined" id="icon-theme">
-                                    {nowTheme === "dark" ? "light_mode" : "dark_mode"}
-                                </Text>
-                            </IconButton>
-                        </Tooltip> */}
                     </Flex>
                     <Separator size="4" />
                 </nav>
-            </Container> 
+            </Container>
         </>
     );
 }
