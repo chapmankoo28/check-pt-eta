@@ -18,16 +18,18 @@ export default function App() {
                     <BrowserRouter>
                         <Banner />
                         <Routes>
-                            <Route index element={<Home />} />
-                            <Route path="/bus" element={<Bus />}>
-                                <Route index element={<Bus />} />
-                                <Route path=":co/:route/:bound/:service" element={<Bus />} />
-                                <Route path=":co/:route/:bound/:service/:stop" element={<Bus />} />
-                            </Route>
-                            <Route path="/metro" element={<Metro />}>
-                                <Route index element={<Metro />} />
-                                <Route path=":line/:dir" element={<Metro />} />
-                                <Route path=":line/:dir/:station" element={<Metro />} />
+                            <Route index path="/check-pt-eta">
+                                <Route index element={<Home />} />
+                                <Route path="/bus" element={<Bus />}>
+                                    <Route index element={<Bus />} />
+                                    <Route path=":co/:route/:bound/:service" element={<Bus />} />
+                                    <Route path=":co/:route/:bound/:service/:stop" element={<Bus />} />
+                                </Route>
+                                <Route path="/metro" element={<Metro />}>
+                                    <Route index element={<Metro />} />
+                                    <Route path=":line/:dir" element={<Metro />} />
+                                    <Route path=":line/:dir/:station" element={<Metro />} />
+                                </Route>
                             </Route>
                             <Route path="*" element={<NotFound />} />
                         </Routes>
