@@ -143,7 +143,7 @@ export default function Route({ co, route, bound, service, stop, setError, get_b
                                             {stopData.map((i, count) => (
                                                 <>
                                                     <Card asChild>
-                                                        <Link to={`/bus/${co}/${route}/${bound}/${service}/${i.stop}`}>
+                                                        <Link to={`/check-pt-eta/bus/${co}/${route}/${bound}/${service}/${i.stop}`}>
                                                             <Accordion.Item id={i.stop} className="AccordionItem" value={i.stop} key={"stop" + i.stop + count}>
                                                                 <Accordion.Header className="AccordionHeader">
                                                                     <Accordion.Trigger className="AccordionTrigger">

@@ -13,7 +13,7 @@ export default function DataTable() {
                 {lines.map((i, index) => {
                     return (
                         <Card key={"Line" + i["Station ID"] + index} asChild className="metro-data-card">
-                            <Link to={`/metro/${i["Line Code"]}/DT/`}>
+                            <Link to={`/check-pt-eta/metro/${i["Line Code"]}/DT/`}>
                                 <Flex gap="1" justify="between" align="center">
                                     <div className={"mtr-line-color " + i["Line Code"].toLowerCase()} />
                                     <Text size="6">{i["Chinese Name"]}</Text>

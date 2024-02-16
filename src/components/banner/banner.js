@@ -10,10 +10,10 @@ export default function Banner() {
                 <nav>
                     <Flex align="center" width="auto" justify="center" gap="9" mb="2">
                         <Heading id="nav-title">幾時到</Heading>
-                        <NavLink to="/bus">
+                        <NavLink to="check-pt-eta/bus">
                             <Text id="nav-bus">🚍巴士</Text>
                         </NavLink>
-                        <NavLink to="/metro">
+                        <NavLink to="check-pt-eta/metro">
                             <Text id="nav-metro">🚇鐡路</Text>
                         </NavLink>
                     </Flex>

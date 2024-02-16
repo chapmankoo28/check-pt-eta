@@ -32,7 +32,7 @@ export default function NowRouteInfo({ co, route, bound, service, nowRoute }) {
                         <Heading id="now-route-dest">{nowRoute.dest_tc ?? ""}</Heading>
 
                         <Tooltip content="切換方向">
-                            <Link to={`/bus/${co}/${route}/${bound === "O" ? "I" : "O"}/${service}/`} onClick={handle_swap_bound}>
+                            <Link to={`/check-pt-eta/bus/${co}/${route}/${bound === "O" ? "I" : "O"}/${service}/`} onClick={handle_swap_bound}>
                                 <Text as="div" id="icon-swap_vert" className="material-symbols-outlined" state={rotate ? "loading" : ""}>
                                     swap_vert
                                 </Text>

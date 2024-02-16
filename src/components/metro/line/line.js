@@ -29,7 +29,7 @@ export default function Line({ line, dir, station }) {
                             <Flex mt="5" direction="column" gap="3" justify="center">
                                 {now_line[dir].map((i, count) => (
                                     <Card asChild>
-                                        <Link to={`/metro/${i["Line Code"]}/${dir}/${i["Station Code"]}`}>
+                                        <Link to={`/check-pt-eta/metro/${i["Line Code"]}/${dir}/${i["Station Code"]}`}>
                                             <Accordion.Item id={i["Station Code"]} className="AccordionItem" value={i["Station Code"]} key={"stop" + i["Station Code"] + count}>
                                                 <Accordion.Header className="AccordionHeader">
                                                     <Accordion.Trigger className="AccordionTrigger">

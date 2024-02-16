@@ -20,12 +20,12 @@ export default function App() {
                         <Routes>
                             <Route path="/check-pt-eta">
                                 <Route index element={<Home />} />
-                                <Route path="/bus" element={<Bus />}>
+                                <Route path="bus" element={<Bus />}>
                                     <Route index element={<Bus />} />
                                     <Route path=":co/:route/:bound/:service" element={<Bus />} />
                                     <Route path=":co/:route/:bound/:service/:stop" element={<Bus />} />
                                 </Route>
-                                <Route path="/metro" element={<Metro />}>
+                                <Route path="metro" element={<Metro />}>
                                     <Route index element={<Metro />} />
                                     <Route path=":line/:dir" element={<Metro />} />
                                     <Route path=":line/:dir/:station" element={<Metro />} />

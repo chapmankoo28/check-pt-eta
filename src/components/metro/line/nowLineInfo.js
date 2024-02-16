@@ -27,7 +27,7 @@ export default function NowLineInfo({ line, dir, station, now_line }) {
                     </Flex>
 
                     <Tooltip content="切換方向">
-                        <Link to={`/metro/${line}/${dir === "DT" ? "UT" : "DT"}/`} onClick={handle_swap_bound}>
+                        <Link to={`/check-pt-eta/metro/${line}/${dir === "DT" ? "UT" : "DT"}/`} onClick={handle_swap_bound}>
                             <Text as="div" id="icon-swap_vert" className="material-symbols-outlined" state={rotate ? "loading" : ""}>
                                 swap_vert
                             </Text>

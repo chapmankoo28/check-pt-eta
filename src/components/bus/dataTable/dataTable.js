@@ -29,7 +29,7 @@ export default function DataTable({ q, get_bus_company_info }) {
                             <Flex direction="column" gap="3" align="center">
                                 {routes.map((i, count) => (
                                     <Card className="bus-data-card" asChild key={count}>
-                                            <Link to={`/bus/${i.co}/${i.route}/${i.bound}/${i.service_type}/`}>
+                                            <Link to={`/check-pt-eta/bus/${i.co}/${i.route}/${i.bound}/${i.service_type}/`}>
                                             <Flex direction="row" gap="1" align="center" justify="between">
                                                 <Text className="data-card-route-num" size="7">
                                                     {i.route}
