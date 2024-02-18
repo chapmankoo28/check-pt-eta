@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import { Container, Theme } from "@radix-ui/themes";
 import Home from "../home/home";
 import Banner from "../banner/banner";
@@ -15,7 +15,7 @@ export default function App() {
         <>
             <Theme appearance="dark" accentColor="indigo" radius="large" panelBackground="translucent" scaling="100%">
                 <Container size="2" id="main-container">
-                    <BrowserRouter>
+                    <HashRouter>
                         <Banner />
                         <Routes>
                             <Route path="/check-pt-eta">
@@ -33,7 +33,7 @@ export default function App() {
                             </Route>
                             <Route path="*" element={<NotFound />} />
                         </Routes>
-                    </BrowserRouter>
+                    </HashRouter>
                 </Container>
             </Theme>
         </>
