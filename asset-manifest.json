@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/check-pt-eta/static/css/main.d5b8af09.css",
+    "main.js": "/check-pt-eta/static/js/main.a41403b2.js",
+    "index.html": "/check-pt-eta/index.html",
+    "main.d5b8af09.css.map": "/check-pt-eta/static/css/main.d5b8af09.css.map",
+    "main.a41403b2.js.map": "/check-pt-eta/static/js/main.a41403b2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d5b8af09.css",
+    "static/js/main.a41403b2.js"
+  ]
+}
