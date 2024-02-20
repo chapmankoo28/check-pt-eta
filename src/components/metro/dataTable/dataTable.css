@@ -1,8 +1,14 @@
-.metro-data-card{
+.metro-data-card {
     width: 95%;
+    margin: auto;
+    cursor: pointer;
 }
 
-.mtr-line-color{
+/* .metro-data-card:hover {
+    background-color: var(--gray-3);
+} */
+
+.mtr-line-color {
     width: 2.5em;
     height: 2.5em;
     border-radius: 18px;

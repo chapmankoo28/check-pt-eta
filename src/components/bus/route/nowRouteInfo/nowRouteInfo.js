@@ -1,27 +1,24 @@
 import React, { useState } from "react";
 import { Flex, Text, Heading, Tooltip } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
 import "./nowRouteInfo.css";
 
-export default function NowRouteInfo({ co, route, bound, service, nowRoute }) {
-
+export default function NowRouteInfo({ co, route, bound, service, nowRoute, setSearchParams }) {
     const [rotate, setRotate] = useState(false);
 
     const handle_swap_bound = () => {
+        setSearchParams(
+            (prev) => {
+                prev.set("bound", prev.get("bound") === "O" ? "I" : "O");
+                return prev;
+            },
+            { replace: true }
+        );
         setRotate(true);
         setTimeout(() => {
             // The timeout should match the animation duration
             setRotate(false);
         }, 500);
     };
-
-    // useEffect(() => {
-    //     if (stopData.length === 0) {
-    //         setTimeout(() => {
-    //             n(`/bus/${co}/${route}/${bound === "O" ? "I" : "O"}/${service}/`);
-    //         }, 2000);
-    //     }
-    // }, [stopData]);
 
     return (
         <>
@@ -32,17 +29,17 @@ export default function NowRouteInfo({ co, route, bound, service, nowRoute }) {
                         <Heading id="now-route-dest">{nowRoute.dest_tc ?? ""}</Heading>
 
                         <Tooltip content="切換方向">
-                            <Link to={`/check-pt-eta/bus/${co}/${route}/${bound === "O" ? "I" : "O"}/${service}/`} onClick={handle_swap_bound}>
-                                <Text as="div" id="icon-swap_vert" className="material-symbols-outlined" state={rotate ? "loading" : ""}>
+                            <button onClick={handle_swap_bound}>
+                                <Text trim="both" as="div" id="icon-swap_vert" className="material-symbols-outlined" state={rotate ? "loading" : ""}>
                                     swap_vert
                                 </Text>
-                            </Link>
+                            </button>
                         </Tooltip>
                     </Flex>
                     {co === "KMB" ? (
-                        <Link to={"https://search.kmb.hk/KMBWebSite/?action=routesearch&route=" + route}>按此查詢巴士公司網站之資料</Link>
+                        <a href={"https://search.kmb.hk/KMBWebSite/?action=routesearch&route=" + route}>按此查詢巴士公司網站之資料</a>
                     ) : (
-                        <Link to={"https://mobile.citybus.com.hk/nwp3/?f=1&dsmode=1&l=0&ds=" + route}>按此查詢巴士公司網站之資料</Link>
+                        <a href={"https://mobile.citybus.com.hk/nwp3/?f=1&dsmode=1&l=0&ds=" + route}>按此查詢巴士公司網站之資料</a>
                     )}
                 </>
             ) : (

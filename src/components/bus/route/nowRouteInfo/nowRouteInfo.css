@@ -1,16 +1,25 @@
 #now-route-num {
-    font-family: "Oswald";
+    font-family: "Barlow";
     font-size: 4rem;
-    font-weight: 300;
+    font-weight: 500;
 }
 
 #now-route-dest {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 500;
 }
 
 #icon-swap_vert {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 18px;
     font-size: 3rem;
+    border-radius: 18px;
+    user-select: none;
+}
+
+#icon-swap_vert:hover {
+    background-color: var(--gray-5);
 }
 
 #icon-swap_vert[state="loading"] {

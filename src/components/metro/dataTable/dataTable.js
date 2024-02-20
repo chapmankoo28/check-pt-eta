@@ -1,19 +1,22 @@
 import React from "react";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import mtr_lines_and_stations from "../../../data/mtr_lines_and_stations.json";
-import { Link } from "react-router-dom";
 import "./dataTable.css";
 
 const lines = mtr_lines_and_stations.data;
 
-export default function DataTable() {
+export default function DataTable({ setSearchParams }) {
     return (
         <>
             <Flex direction="column" gap="3" align="center">
                 {lines.map((i, index) => {
                     return (
-                        <Card key={"Line" + i["Station ID"] + index} asChild className="metro-data-card">
-                            <Link to={`/check-pt-eta/metro/${i["Line Code"]}/DT/`}>
+                        <Card key={btoa("Line" + i["Station ID"] + index)} asChild className="metro-data-card">
+                            <button
+                                onClick={() => {
+                                    setSearchParams({ type: "metro", line: i["Line Code"], dir: "DT", station: "" }, { replace: false });
+                                }}
+                            >
                                 <Flex gap="1" justify="between" align="center">
                                     <div className={"mtr-line-color " + i["Line Code"].toLowerCase()} />
                                     <Text size="6">{i["Chinese Name"]}</Text>
@@ -28,7 +31,7 @@ export default function DataTable() {
                                         navigate_next
                                     </Text>
                                 </Flex>
-                            </Link>
+                            </button>
                         </Card>
                     );
                 })}

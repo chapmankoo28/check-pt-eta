@@ -1,42 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import ETA from "./eta/eta";
 import * as Accordion from "@radix-ui/react-accordion";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import mtr_lines_and_stations from "../../../data/mtr_lines_and_stations.json";
-import { Link } from "react-router-dom";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import NowLineInfo from "./nowLineInfo";
 import "./line.css";
 
-export default function Line({ line, dir, station }) {
-    const now_line =
-        mtr_lines_and_stations.data.find((i) => {
-            return i["Line Code"] === line;
-        }) ?? {};
+export default function Line({ line, dir, station, setSearchParams }) {
+    const now_line = useMemo(
+        () =>
+            mtr_lines_and_stations.data.find((i) => {
+                return i["Line Code"] === line;
+            }) ?? {},
+        [line]
+    );
 
     useEffect(() => {
         console.log("now_line", now_line);
-    }, []);
+    }, [now_line]);
 
     return (
         <>
             <Flex direction="column" align="center" justify="between" gap="3">
-                <NowLineInfo line={line} dir={dir} station={station} now_line={now_line} />
+                <NowLineInfo line={line} dir={dir} station={station} now_line={now_line} setSearchParams={setSearchParams} />
                 <ScrollArea.Root className="ScrollAreaRoot">
                     <ScrollArea.Viewport className="ScrollAreaViewport">
                         <Accordion.Root type="single" className="AccordionRoot" defaultValue={station}>
                             <Flex mt="5" direction="column" gap="3" justify="center">
                                 {now_line[dir].map((i, count) => (
-                                    <Card asChild>
-                                        <Link to={`/check-pt-eta/metro/${i["Line Code"]}/${dir}/${i["Station Code"]}`}>
-                                            <Accordion.Item id={i["Station Code"]} className="AccordionItem" value={i["Station Code"]} key={"stop" + i["Station Code"] + count}>
+                                    <Card asChild className="AccordionCard ">
+                                        <button
+                                            onClick={() => {
+                                                setSearchParams({ type: "metro", line: i["Line Code"], dir: dir, station: i["Station Code"] }, { replace: true });
+                                            }}
+                                        >
+                                            <Accordion.Item id={i["Station Code"]} className="AccordionItem" value={i["Station Code"]} key={btoa("stop" + i["Station Code"] + count)}>
                                                 <Accordion.Header className="AccordionHeader">
                                                     <Accordion.Trigger className="AccordionTrigger">
                                                         <Flex direction="row" gap="3" className="AccordionTriggerContent" align="center" justify="between">
                                                             <Avatar.Root className={"AvatarRoot stop-seq " + now_line["Line Code"].toLowerCase()}>
                                                                 <Avatar.Fallback className="AvatarFallback">
-                                                                    <Text size="6">{i["Sequence"]}</Text>
+                                                                    <Text size="7">{i["Sequence"]}</Text>
                                                                 </Avatar.Fallback>
                                                             </Avatar.Root>
 
@@ -60,7 +66,7 @@ export default function Line({ line, dir, station }) {
                                                     )}
                                                 </Accordion.Content>
                                             </Accordion.Item>
-                                        </Link>
+                                        </button>
                                     </Card>
                                 ))}
                             </Flex>

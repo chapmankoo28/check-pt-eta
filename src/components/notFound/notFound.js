@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Container, Flex, Heading, Text } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
 
 export default function NotFound() {
     return (
@@ -12,12 +11,12 @@ export default function NotFound() {
                     </Heading>
                     <Heading size="8">Page Not Found</Heading>
                     <Button asChild>
-                        <Link to="/check-pt-eta">
+                        <a href="/">
                             <Text as="span" className="material-symbols-outlined" id="icon-home">
                                 home
                             </Text>
                             Back to Home
-                        </Link>
+                        </a>
                     </Button>
                 </Flex>
             </Container>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, Text, Heading, IconButton, Tooltip, Separator } from "@radix-ui/themes";
+import { Flex, Text, Heading, Tooltip, Separator } from "@radix-ui/themes";
 import Loading from "../../../loading/loading";
 import api_config from "../../../../data/api_config.json";
 
@@ -84,8 +84,8 @@ export default function ETA({ line, dir, station, now_line }) {
     useEffect(() => {
         let isMounted = true;
         setLoading(true);
-
         get_filtered_eta_data(isMounted);
+
         return () => {
             isMounted = false;
         };
@@ -94,13 +94,13 @@ export default function ETA({ line, dir, station, now_line }) {
     return (
         <Flex direction="column" gap="2">
             <Flex gap="2" justify="between" align="center" mt="5" mb="1">
-                <Text>最後更新時間：{time}</Text>
+                <Text>最後更新時間：{time} </Text>
                 <Tooltip content="更新">
-                    <IconButton variant="ghost" onClick={get_filtered_eta_data} mr="2">
-                        <Text as="span" className="material-symbols-outlined" id="icon-refresh" state={loading ? "loading" : "done"}>
+                    <button onClick={get_filtered_eta_data}>
+                        <Text trim="both" as="div" className="material-symbols-outlined" id="icon-refresh" state={loading ? "loading" : "done"}>
                             autorenew
                         </Text>
-                    </IconButton>
+                    </button>
                 </Tooltip>
             </Flex>
 
@@ -112,12 +112,15 @@ export default function ETA({ line, dir, station, now_line }) {
                         // const eta_in_min = Math.ceil((new Date(i.time) - now) / 1000 / 60);
                         return (
                             <>
-                                <Separator key={"separator" + count + i.seq} orientation="horizontal" size="4" />
-                                <Flex key={"eta" + count + i.seq} direction="row" gap="3" justify="between" align="center">
+                                <Separator key={btoa("separator" + count + i.seq)} orientation="horizontal" size="4" />
+                                <Flex key={btoa("eta" + count + i.seq)} direction="row" gap="3" justify="between" align="center">
                                     <Flex direction="column" gap="1" align="start">
                                         <Flex gap="1" align="baseline">
                                             <Text size="2">往</Text>
-                                            <Text size="5">{get_station_name(line, dir, i.dest) ?? ""}</Text>
+                                            <Text size="5">
+                                                {get_station_name(line, dir, i.dest) ?? ""}
+                                                {i.route === "RAC" ? "經馬場" : ""}
+                                            </Text>
                                         </Flex>
                                         <Text size="2" color="gray">
                                             {i.plat}號月台
@@ -125,7 +128,7 @@ export default function ETA({ line, dir, station, now_line }) {
                                     </Flex>
                                     <Flex gap="2" align="baseline">
                                         <Text size="7" className="eta-min">
-                                            {i.ttnt > 1 ? i.ttnt : i.timeType === "A" ? "即將抵達" : "正在離開"}
+                                            {i.ttnt > 1 ? i.ttnt : line === "EAL" ? (i.timeType === "A" ? "即將抵達" : "正在離開") : "即將抵達/正在離開"}
                                         </Text>
                                         {i.ttnt > 1 && <Text>分鐘</Text>}
                                     </Flex>

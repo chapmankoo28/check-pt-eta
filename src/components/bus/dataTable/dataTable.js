@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
-import { Flex, Text, Badge, Card } from "@radix-ui/themes";
+import { Flex, Text, Card } from "@radix-ui/themes";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import allRoutesData from "../../../data/all_route_list.json";
-import { Link } from "react-router-dom";
 import "./dataTable.css";
 
 const filtered_routes = (q) => {
@@ -14,7 +13,7 @@ const filtered_routes = (q) => {
     });
 };
 
-export default function DataTable({ q, get_bus_company_info }) {
+export default function DataTable({ q, setSearchParams, get_bus_company_info }) {
     const query = q.toLowerCase();
     const routes = useMemo(() => {
         return filtered_routes(query);
@@ -28,8 +27,12 @@ export default function DataTable({ q, get_bus_company_info }) {
                         <ScrollArea.Viewport className="ScrollAreaViewport">
                             <Flex direction="column" gap="3" align="center">
                                 {routes.map((i, count) => (
-                                    <Card className="bus-data-card" asChild key={count}>
-                                            <Link to={`/check-pt-eta/bus/${i.co}/${i.route}/${i.bound}/${i.service_type}/`}>
+                                    <Card className="bus-data-card" asChild key={btoa("route" + count + i.route)}>
+                                        <button
+                                            onClick={() => {
+                                                setSearchParams({ type: "bus", co: i.co, route: i.route, bound: i.bound, service: i.service_type }, { replace: false });
+                                            }}
+                                        >
                                             <Flex direction="row" gap="1" align="center" justify="between">
                                                 <Text className="data-card-route-num" size="7">
                                                     {i.route}
@@ -45,8 +48,7 @@ export default function DataTable({ q, get_bus_company_info }) {
                                                         </Flex>
                                                     </Text>
                                                     <Text as="div" size="2" color="gray">
-                                                        {/* {i.bound === "O" ? "Outbound" : "Inbound"}
-                                                    &nbsp; */}
+                                                        {/* {i.bound === "O" ? "Outbound" : "Inbound"}*/}
                                                         {i.service_type !== "1" ? "特別班" : ""}
                                                     </Text>
                                                 </Flex>
@@ -55,8 +57,8 @@ export default function DataTable({ q, get_bus_company_info }) {
                                                     navigate_next
                                                 </Text>
                                             </Flex>
-                                    </Link>
-                                        </Card>
+                                        </button>
+                                    </Card>
                                 ))}
                             </Flex>
                         </ScrollArea.Viewport>

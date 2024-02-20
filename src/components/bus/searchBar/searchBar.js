@@ -6,14 +6,22 @@ export default function SearchBar({ q, setSearchParams }) {
     const inputRef = useRef(null);
 
     const clearInputBox = () => {
-        setSearchParams({});
+        setSearchParams(
+            (prev) => {
+                prev.set("q", "");
+                return prev;
+            },
+            { replace: true }
+        );
         inputRef.current?.focus();
     };
 
     const handleInputChange = (e) => {
+        e.preventDefault();
+        
         setSearchParams(
             (prev) => {
-                prev.set("route", e.target.value);
+                prev.set("q", e.target.value);
                 return prev;
             },
             { replace: true }

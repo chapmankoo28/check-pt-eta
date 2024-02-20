@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Flex, Container, Heading, Dialog, Button } from "@radix-ui/themes";
-import SearchBar from "./dataTable/searchBar/searchBar";
+import SearchBar from "./searchBar/searchBar";
 import DataTable from "./dataTable/dataTable";
 import Route from "./route/route";
 import "./bus.css";
 
 export default function Bus() {
-    const [searchParams, setSearchParams] = useSearchParams({ route: "" });
-    const q = searchParams.get("route")?.trim() ?? "";
+    const [searchParams, setSearchParams] = useSearchParams({ q: "", co: "", route: "", bound: "", service: "", stop: "" });
+    const q = searchParams.get("q")?.trim() ?? "";
+    const co = searchParams.get("co")?.trim() ?? "";
+    const route = searchParams.get("route")?.trim() ?? "";
+    const bound = searchParams.get("bound")?.trim() ?? "";
+    const service = searchParams.get("service")?.trim() ?? "";
+    const stop = searchParams.get("stop")?.trim() ?? "";
 
     const [error, setError] = useState(false);
-
-    const { co, route, bound, service, stop } = useParams();
 
     const is_selected_route = co ? true : false;
 
@@ -50,14 +53,14 @@ export default function Bus() {
                 </Dialog.Content>
             </Dialog.Root>
             {is_selected_route ? (
-                <Route co={co} route={route} bound={bound} service={service} stop={stop} setError={setError} get_bus_company_info={get_bus_company_info} />
+                <Route co={co} route={route} bound={bound} service={service} stop={stop}setSearchParams={setSearchParams} setError={setError} get_bus_company_info={get_bus_company_info} />
             ) : (
                 <Flex direction="column" gap="3">
                     <Heading size="8" weight="light" align="center" m="1">
                         巴士幾時到
                     </Heading>
                     <SearchBar q={q} setSearchParams={setSearchParams} />
-                    <DataTable q={q} get_bus_company_info={get_bus_company_info} />
+                    <DataTable q={q} get_bus_company_info={get_bus_company_info}setSearchParams={setSearchParams} />
                 </Flex>
             )}
         </Container>

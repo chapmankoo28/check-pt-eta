@@ -1,13 +1,18 @@
 .bus-data-card {
     width: 95%;
     margin: auto;
+    cursor: pointer;
+}
+
+.bus-data-card:hover {
+    background-color: var(--gray-3);
 }
 
 .data-card-route-num {
-    font-family: "Oswald";
     font-size: 2rem;
     width: 2.3em;
     text-align: center;
+    font-family: "Barlow";
 }
 
 .bus-co-color {

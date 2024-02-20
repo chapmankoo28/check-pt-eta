@@ -9,63 +9,56 @@ import ETA from "./eta/eta";
 import api_config from "../../../data/api_config.json";
 import NowRouteInfo from "./nowRouteInfo/nowRouteInfo";
 import "./route.css";
-import { Link } from "react-router-dom";
 
-export default function Route({ co, route, bound, service, stop, setError, get_bus_company_info }) {
+export default function Route({ co, route, bound, service, stop, setError, setSearchParams, get_bus_company_info }) {
     const [stopData, setStopData] = useState([]);
     const [nowRoute, setNowRoute] = useState({});
     const [loading, setLoading] = useState(true);
     const [stopNames, setStopNames] = useState({});
 
-    const get_stop_list = useCallback(
-        async (co, route, bound, service, setError) => {
-            console.log("CALLED get_stop_list");
-            // if (Object.keys(get_route_info(co, route, bound, service) ?? {}).length === 0) return [];
-            try {
-                const api = api_config.data.find((item) => item.co.toLowerCase() === co.toLowerCase()) ?? {};
+    const get_stop_list = useCallback(async (co, route, bound, service, setError) => {
+        console.log("CALLED get_stop_list");
+        // if (Object.keys(get_route_info(co, route, bound, service) ?? {}).length === 0) return [];
+        try {
+            const api = api_config.data.find((item) => item.co.toLowerCase() === co.toLowerCase()) ?? {};
 
-                const b = bound.toLowerCase() === "o" ? "outbound" : "inbound";
-                const url = `${api["base_url"]}${api["api"]["route-stop"]}${route.toUpperCase()}/${b}/`;
-                const s = co.toLowerCase() === "kmb" ? service : "";
+            const b = bound.toLowerCase() === "o" ? "outbound" : "inbound";
+            const url = `${api["base_url"]}${api["api"]["route-stop"]}${route.toUpperCase()}/${b}/`;
+            const s = co.toLowerCase() === "kmb" ? service : "";
 
-                const response = await fetch(url + s);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const result = await response.json();
-                console.log("STOP LIST", result);
-                return result.data;
-            } catch (error) {
-                console.error("ERROR: fetching stop data. Info:", error);
-                setError(true);
+            const response = await fetch(url + s);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        },
-        [co, route, bound, service]
-    );
+            const result = await response.json();
+            console.log("STOP LIST", result);
+            return result.data;
+        } catch (error) {
+            console.error("ERROR: fetching stop data. Info:", error);
+            setError(true);
+        }
+    }, []);
 
-    const get_route_info = useCallback(
-        (co, route, bound, service) => {
-            console.log("CALLED get_route_info");
-            if (!co || !route || !bound || !service) return {};
+    const get_route_info = useCallback((co, route, bound, service) => {
+        console.log("CALLED get_route_info");
+        if (!co || !route || !bound || !service) return {};
 
-            const res =
-                allRoutesData["data"].find((i) => {
-                    return i.route === route && i.co === co && i.bound === bound && i.service_type === service;
-                }) ?? {};
+        const res =
+            allRoutesData["data"].find((i) => {
+                return i.route === route && i.co === co && i.bound === bound && i.service_type === service;
+            }) ?? {};
 
-            if (Object.keys(res).length === 0) {
-                console.log("CHECK SWAP BOUND STOP LIST");
-                const swap_bound = bound === "O" ? "I" : "O";
-                return get_route_info(co, route, swap_bound, service) ?? {};
-            }
+        if (Object.keys(res).length === 0) {
+            console.log("CHECK SWAP BOUND STOP LIST");
+            const swap_bound = bound === "O" ? "I" : "O";
+            return get_route_info(co, route, swap_bound, service) ?? {};
+        }
 
-            console.log("ROUTE INFO", res);
-            return res;
-        },
-        [co, route, bound, service]
-    );
+        console.log("ROUTE INFO", res);
+        return res;
+    }, []);
 
-    const get_stop_name_tc = async (co, stopID, setError) => {
+    const get_stop_name_tc = useCallback(async (co, stopID, setError) => {
         console.log("CALLED get_stop_name_tc");
         if (!co || !stopID) return "";
         try {
@@ -83,7 +76,7 @@ export default function Route({ co, route, bound, service, stop, setError, get_b
             console.error("ERROR: fetching stop name. Info:", error);
             setError(true);
         }
-    };
+    }, []);
 
     useEffect(() => {
         let isMounted = true;
@@ -125,7 +118,7 @@ export default function Route({ co, route, bound, service, stop, setError, get_b
 
     return (
         <Flex direction="column" gap="3" align="center">
-            <NowRouteInfo co={co} route={route} bound={bound} service={service} nowRoute={nowRoute} />
+            <NowRouteInfo co={co} route={route} bound={bound} service={service} nowRoute={nowRoute} setSearchParams={setSearchParams} />
             {loading ? (
                 <Loading />
             ) : (
@@ -142,15 +135,25 @@ export default function Route({ co, route, bound, service, stop, setError, get_b
                                         <>
                                             {stopData.map((i, count) => (
                                                 <>
-                                                    <Card asChild>
-                                                        <Link to={`/check-pt-eta/bus/${co}/${route}/${bound}/${service}/${i.stop}`}>
-                                                            <Accordion.Item id={i.stop} className="AccordionItem" value={i.stop} key={"stop" + i.stop + count}>
+                                                    <Card asChild className="AccordionCard ">
+                                                        <button
+                                                            onClick={() => {
+                                                                setSearchParams(
+                                                                    (prev) => {
+                                                                        prev.set("stop", i.stop);
+                                                                        return prev;
+                                                                    },
+                                                                    { replace: true }
+                                                                );
+                                                            }}
+                                                        >
+                                                            <Accordion.Item id={i.stop} className="AccordionItem" value={i.stop} key={btoa("stop" + i.stop + count)}>
                                                                 <Accordion.Header className="AccordionHeader">
                                                                     <Accordion.Trigger className="AccordionTrigger">
                                                                         <Flex direction="row" gap="3" className="AccordionTriggerContent" align="center" justify="between">
                                                                             <Avatar.Root className={"AvatarRoot stop-seq " + get_bus_company_info(co, route)["code"].toLowerCase() ?? ""}>
                                                                                 <Avatar.Fallback className="AvatarFallback">
-                                                                                    <Text size="6">{i["seq"]}</Text>
+                                                                                    <Text size="7">{i["seq"]}</Text>
                                                                                 </Avatar.Fallback>
                                                                             </Avatar.Root>
                                                                             <Text size="5" align="left" mr="auto">
@@ -166,7 +169,7 @@ export default function Route({ co, route, bound, service, stop, setError, get_b
                                                                     <ETA co={co} route={route} bound={bound} service={service} stop={i.stop} />
                                                                 </Accordion.Content>
                                                             </Accordion.Item>
-                                                        </Link>
+                                                        </button>
                                                     </Card>
                                                 </>
                                             ))}

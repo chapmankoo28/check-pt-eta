@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, Text, Heading, IconButton, Tooltip, Separator } from "@radix-ui/themes";
+import { Flex, Text, Heading, Tooltip, Separator } from "@radix-ui/themes";
 import Loading from "../../../loading/loading";
 import api_config from "../../../../data/api_config.json";
 import "./eta.css";
@@ -76,11 +76,11 @@ export default function ETA({ co, route, bound, service, stop }) {
             <Flex gap="2" justify="between" align="center" mt="5" mb="1">
                 <Text>最後更新時間：{time}</Text>
                 <Tooltip content="更新">
-                    <IconButton variant="ghost" onClick={get_filtered_eta_data}>
-                        <Text as="span" className="material-symbols-outlined" id="icon-refresh" state={loading ? "loading" : "done"}>
+                    <button onClick={get_filtered_eta_data}>
+                        <Text trim="both" as="div" className="material-symbols-outlined" id="icon-refresh" state={loading ? "loading" : "done"}>
                             autorenew
                         </Text>
-                    </IconButton>
+                    </button>
                 </Tooltip>
             </Flex>
 
@@ -106,7 +106,7 @@ export default function ETA({ co, route, bound, service, stop }) {
                         return (
                             <>
                                 <Separator key={"separator" + count + i.seq + i.eta_seq} orientation="horizontal" size="4" />
-                                <Flex key={"eta" + count + i.seq + i.eta_seq} direction="row" gap="3" justify="between" align="center">
+                                <Flex key={btoa("eta", i.seq, count)} direction="row" gap="3" justify="between" align="center">
                                     <Flex direction="column" gap="1" align="start">
                                         <Flex gap="1" align="baseline">
                                             <Text size="2">往</Text>
