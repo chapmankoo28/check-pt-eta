@@ -1,6 +1,6 @@
 {
-    "homepage": "https://chapmankoo28.github.io/check-pt-eta/",
-    "name": "check-pt-eta",
+    "homepage": "https://chapmankoo28.github.io/check-eta/",
+    "name": "check-eta",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

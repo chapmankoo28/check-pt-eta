@@ -3,7 +3,7 @@ import ETA from "./eta/eta";
 import * as Accordion from "@radix-ui/react-accordion";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import mtr_lines_and_stations from "../../../data/mtr_lines_and_stations.json";
+import mtr_lines_and_stations from "../../../res/json/mtr_lines_and_stations.json";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import NowLineInfo from "./nowLineInfo";
 import "./line.css";

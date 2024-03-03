@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Flex, Text, Heading, Tooltip, Separator } from "@radix-ui/themes";
 import Loading from "../../../loading/loading";
-import api_config from "../../../../data/api_config.json";
+import api_config from "../../../../res/json/api_config.json";
 import "./eta.css";
 
 export default function ETA({ co, route, bound, service, stop }) {

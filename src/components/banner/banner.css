@@ -5,8 +5,15 @@
     font-size: 1.5rem;
     border-radius: 18px;
     user-select: none;
+    -webkit-user-select: none;
+}
+
+#nav-bus,
+#nav-metro,
+#nav-title {
     cursor: pointer;
 }
+
 #nav-bus:hover:not(.active),
 #nav-metro:hover:not(.active) {
     background-color: var(--gray-5);

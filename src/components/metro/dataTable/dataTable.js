@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Flex, Text } from "@radix-ui/themes";
-import mtr_lines_and_stations from "../../../data/mtr_lines_and_stations.json";
+import mtr_lines_and_stations from "../../../res/json/mtr_lines_and_stations.json";
 import "./dataTable.css";
 
 const lines = mtr_lines_and_stations.data;

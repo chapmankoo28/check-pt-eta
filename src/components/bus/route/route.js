@@ -4,9 +4,9 @@ import * as Accordion from "@radix-ui/react-accordion";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import Loading from "../../loading/loading";
-import allRoutesData from "../../../data/all_route_list.json";
+import allRoutesData from "../../../res/json/all_route_list.json";
 import ETA from "./eta/eta";
-import api_config from "../../../data/api_config.json";
+import api_config from "../../../res/json/api_config.json";
 import NowRouteInfo from "./nowRouteInfo/nowRouteInfo";
 import "./route.css";
 

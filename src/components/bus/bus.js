@@ -55,7 +55,7 @@ export default function Bus() {
             {is_selected_route ? (
                 <Route co={co} route={route} bound={bound} service={service} stop={stop}setSearchParams={setSearchParams} setError={setError} get_bus_company_info={get_bus_company_info} />
             ) : (
-                <Flex direction="column" gap="3">
+                <Flex direction="column" gap="0">
                     <Heading size="8" weight="light" align="center" m="1">
                         巴士幾時到
                     </Heading>

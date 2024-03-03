@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Flex, Text, Card } from "@radix-ui/themes";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import allRoutesData from "../../../data/all_route_list.json";
+import allRoutesData from "../../../res/json/all_route_list.json";
 import "./dataTable.css";
 
 const filtered_routes = (q) => {

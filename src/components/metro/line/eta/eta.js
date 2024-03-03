@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Flex, Text, Heading, Tooltip, Separator } from "@radix-ui/themes";
 import Loading from "../../../loading/loading";
-import api_config from "../../../../data/api_config.json";
+import api_config from "../../../../res/json/api_config.json";
 
 export default function ETA({ line, dir, station, now_line }) {
     const [loading, setLoading] = useState(true);
@@ -119,7 +119,7 @@ export default function ETA({ line, dir, station, now_line }) {
                                             <Text size="2">往</Text>
                                             <Text size="5">
                                                 {get_station_name(line, dir, i.dest) ?? ""}
-                                                {i.route === "RAC" ? "經馬場" : ""}
+                                                {i.route === "RAC" ? " 經馬場" : ""}
                                             </Text>
                                         </Flex>
                                         <Text size="2" color="gray">
@@ -128,7 +128,7 @@ export default function ETA({ line, dir, station, now_line }) {
                                     </Flex>
                                     <Flex gap="2" align="baseline">
                                         <Text size="7" className="eta-min">
-                                            {i.ttnt > 1 ? i.ttnt : line === "EAL" ? (i.timeType === "A" ? "即將抵達" : "正在離開") : "即將抵達/正在離開"}
+                                            {i.ttnt > 1 ? i.ttnt : line === "EAL" ? (i.timeType === "A" ? "即將抵達" : "正在離開") : "即將抵達"}
                                         </Text>
                                         {i.ttnt > 1 && <Text>分鐘</Text>}
                                     </Flex>
