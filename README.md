@@ -40,7 +40,7 @@ You can:
 您可以：
 
 - Swap the route direction
-  調䡛方向
+  調轉方向
 - Get the latest ETA
   取得最新的ETA
 
@@ -60,7 +60,7 @@ You can:
 You can:
 
 - Swap the line direction
-  調䡛方向
+  調轉方向
 - Get the latest ETA
   取得最新的ETA
 
