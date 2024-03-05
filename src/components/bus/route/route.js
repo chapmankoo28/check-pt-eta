@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import * as Accordion from "@radix-ui/react-accordion";
 import * as Avatar from "@radix-ui/react-avatar";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
 import Loading from "../../loading/loading";
 import allRoutesData from "../../../res/json/all_route_list.json";
 import ETA from "./eta/eta";
@@ -10,13 +9,13 @@ import api_config from "../../../res/json/api_config.json";
 import NowRouteInfo from "./nowRouteInfo/nowRouteInfo";
 import "./route.css";
 
-export default function Route({ co, route, bound, service, stop, setError, setSearchParams, get_bus_company_info }) {
+export default function Route({ co, route, bound, service, stop, setSearchParams, get_bus_company_info }) {
     const [stopData, setStopData] = useState([]);
     const [nowRoute, setNowRoute] = useState({});
     const [loading, setLoading] = useState(true);
     const [stopNames, setStopNames] = useState({});
 
-    const get_stop_list = useCallback(async (co, route, bound, service, setError) => {
+    const get_stop_list = useCallback(async (co, route, bound, service) => {
         console.log("CALLED get_stop_list");
         // if (Object.keys(get_route_info(co, route, bound, service) ?? {}).length === 0) return [];
         try {
@@ -35,7 +34,6 @@ export default function Route({ co, route, bound, service, stop, setError, setSe
             return result.data;
         } catch (error) {
             console.error("ERROR: fetching stop data. Info:", error);
-            setError(true);
         }
     }, []);
 
@@ -58,7 +56,7 @@ export default function Route({ co, route, bound, service, stop, setError, setSe
         return res;
     }, []);
 
-    const get_stop_name_tc = useCallback(async (co, stopID, setError) => {
+    const get_stop_name_tc = useCallback(async (co, stopID) => {
         console.log("CALLED get_stop_name_tc");
         if (!co || !stopID) return "";
         try {
@@ -74,7 +72,6 @@ export default function Route({ co, route, bound, service, stop, setError, setSe
             return result.data.name_tc ?? "";
         } catch (error) {
             console.error("ERROR: fetching stop name. Info:", error);
-            setError(true);
         }
     }, []);
 
@@ -104,7 +101,6 @@ export default function Route({ co, route, bound, service, stop, setError, setSe
                     console.error("ERROR: fetching stop data. Info:", error);
                     // Here you could set an error state and display an error message
                     setLoading(false);
-                    setError(true);
                 }
             }
         };
@@ -117,74 +113,68 @@ export default function Route({ co, route, bound, service, stop, setError, setSe
     }, [co, route, bound, service]);
 
     return (
-        <Flex direction="column" gap="3" align="center">
-            <NowRouteInfo co={co} route={route} bound={bound} service={service} nowRoute={nowRoute} setSearchParams={setSearchParams} />
-            {loading ? (
-                <Loading />
-            ) : (
-                <>
-                    <ScrollArea.Root className="ScrollAreaRoot">
-                        <ScrollArea.Viewport className="ScrollAreaViewport">
-                            <Accordion.Root type="single" className="AccordionRoot" defaultValue={stop}>
-                                <Flex mt="5" direction="column" gap="3" justify="center">
-                                    {stopData.length === 0 ? (
-                                        <Text align="center" size="6">
-                                            搵唔到巴士站，請嘗試切換方向。
-                                        </Text>
-                                    ) : (
-                                        <>
-                                            {stopData.map((i, count) => (
-                                                <>
-                                                    <Card asChild className="AccordionCard ">
-                                                        <button
-                                                            onClick={() => {
-                                                                setSearchParams(
-                                                                    (prev) => {
-                                                                        prev.set("stop", i.stop);
-                                                                        return prev;
-                                                                    },
-                                                                    { replace: true }
-                                                                );
-                                                            }}
-                                                        >
-                                                            <Accordion.Item id={i.stop} className="AccordionItem" value={i.stop} key={btoa("stop" + i.stop + count)}>
-                                                                <Accordion.Header className="AccordionHeader">
-                                                                    <Accordion.Trigger className="AccordionTrigger">
-                                                                        <Flex direction="row" gap="3" className="AccordionTriggerContent" align="center" justify="between">
-                                                                            <Avatar.Root className={"AvatarRoot stop-seq " + get_bus_company_info(co, route)["code"].toLowerCase() ?? ""}>
-                                                                                <Avatar.Fallback className="AvatarFallback">
-                                                                                    <Text size="7">{i["seq"]}</Text>
-                                                                                </Avatar.Fallback>
-                                                                            </Avatar.Root>
-                                                                            <Text size="5" align="left" mr="auto">
-                                                                                {stopNames[i.stop] ?? `搵唔到巴士站 ID: ${i.stop}`}
-                                                                            </Text>
-                                                                            <Text as="div" trim="both" id="icon-expand_more" className="material-symbols-outlined">
-                                                                                expand_more
-                                                                            </Text>
-                                                                        </Flex>
-                                                                    </Accordion.Trigger>
-                                                                </Accordion.Header>
-                                                                <Accordion.Content className="AccordionContent">
-                                                                    <ETA co={co} route={route} bound={bound} service={service} stop={i.stop} />
-                                                                </Accordion.Content>
-                                                            </Accordion.Item>
-                                                        </button>
-                                                    </Card>
-                                                </>
-                                            ))}
-                                        </>
-                                    )}
-                                </Flex>
-                            </Accordion.Root>
-                        </ScrollArea.Viewport>
-                        <ScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="vertical">
-                            <ScrollArea.Thumb className="ScrollAreaThumb" />
-                        </ScrollArea.Scrollbar>
-                        <ScrollArea.Corner className="ScrollAreaCorner" />
-                    </ScrollArea.Root>
-                </>
-            )}
-        </Flex>
+        <>
+            <Flex direction="column" gap="3" align="center">
+                <NowRouteInfo co={co} route={route} bound={bound} service={service} nowRoute={nowRoute} setSearchParams={setSearchParams} />
+                {loading ? (
+                    <Loading />
+                ) : (
+                    <>
+                                <Accordion.Root type="single" className="AccordionRoot" defaultValue={stop}>
+                                    <Flex mt="5" direction="column" gap="3" justify="center">
+                                        {stopData.length === 0 ? (
+                                            <Text align="center" size="6">
+                                                搵唔到巴士站，請嘗試切換方向。
+                                            </Text>
+                                        ) : (
+                                            <>
+                                                {stopData.map((i, count) => (
+                                                    <>
+                                                        <Card asChild className="AccordionCard ">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setSearchParams(
+                                                                        (prev) => {
+                                                                            prev.set("stop", i.stop);
+                                                                            return prev;
+                                                                        },
+                                                                        { replace: true }
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <Accordion.Item id={i.stop} className="AccordionItem" value={i.stop} key={btoa("stop" + i.stop + count)}>
+                                                                    <Accordion.Header className="AccordionHeader">
+                                                                        <Accordion.Trigger className="AccordionTrigger">
+                                                                            <Flex direction="row" gap="3" className="AccordionTriggerContent" align="center" justify="between">
+                                                                                <Avatar.Root className={"AvatarRoot stop-seq " + get_bus_company_info(co, route)["code"].toLowerCase() ?? ""}>
+                                                                                    <Avatar.Fallback className="AvatarFallback">
+                                                                                        <Text size="7">{i["seq"]}</Text>
+                                                                                    </Avatar.Fallback>
+                                                                                </Avatar.Root>
+                                                                                <Text size="5" align="left" mr="auto">
+                                                                                    {stopNames[i.stop] ?? `搵唔到巴士站 ID: ${i.stop}`}
+                                                                                </Text>
+                                                                                <Text as="div" trim="both" id="icon-expand_more" className="material-symbols-outlined">
+                                                                                    expand_more
+                                                                                </Text>
+                                                                            </Flex>
+                                                                        </Accordion.Trigger>
+                                                                    </Accordion.Header>
+                                                                    <Accordion.Content className="AccordionContent">
+                                                                        <ETA co={co} route={route} bound={bound} service={service} stop={i.stop} />
+                                                                    </Accordion.Content>
+                                                                </Accordion.Item>
+                                                            </button>
+                                                        </Card>
+                                                    </>
+                                                ))}
+                                            </>
+                                        )}
+                                    </Flex>
+                                </Accordion.Root>
+                    </>
+                )}
+            </Flex>
+        </>
     );
 }

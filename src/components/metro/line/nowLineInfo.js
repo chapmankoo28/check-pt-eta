@@ -20,13 +20,14 @@ export default function NowLineInfo({ dir, setSearchParams, now_line }) {
 
     return (
         <>
-            <Flex direction="row" justify="between" align="center" gap="5">
+            <div id="now-route-info">
                 <div className={"mtr-line-color " + now_line["Line Code"].toLowerCase()} />
+
                 <Heading id="now-route-dest">{now_line["Chinese Name"] ?? ""}</Heading>
 
                 <Flex gap="1" align="baseline">
                     <Text size="2">往</Text>
-                    <Text size="6">{now_line[dir][now_line[dir].length - 1]["Chinese Name"] ?? ""}</Text>
+                    <Text size="5">{now_line[dir][now_line[dir].length - 1]["Chinese Name"] ?? ""}</Text>
                 </Flex>
                 <Tooltip content="切換方向">
                     <button onClick={handle_swap_bound}>
@@ -35,7 +36,7 @@ export default function NowLineInfo({ dir, setSearchParams, now_line }) {
                         </Text>
                     </button>
                 </Tooltip>
-            </Flex>
+            </div>
         </>
     );
 }

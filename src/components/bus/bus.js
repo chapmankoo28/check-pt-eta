@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { Flex, Container, Heading, Dialog, Button } from "@radix-ui/themes";
+import { Flex, Heading } from "@radix-ui/themes";
 import SearchBar from "./searchBar/searchBar";
 import DataTable from "./dataTable/dataTable";
 import Route from "./route/route";
@@ -14,8 +14,6 @@ export default function Bus() {
     const bound = searchParams.get("bound")?.trim() ?? "";
     const service = searchParams.get("service")?.trim() ?? "";
     const stop = searchParams.get("stop")?.trim() ?? "";
-
-    const [error, setError] = useState(false);
 
     const is_selected_route = co ? true : false;
 
@@ -38,31 +36,18 @@ export default function Bus() {
     };
 
     return (
-        <Container size="2" id="bus-container" align="center">
-            <Dialog.Root open={error}>
-                <Dialog.Content>
-                    <Dialog.Title>錯誤</Dialog.Title>
-                    <Dialog.Description>請再試一次。</Dialog.Description>
-                    <Flex gap="1" justify="end">
-                        <Dialog.Close>
-                            <Button variant="soft" onClick={() => setError(false)} color="gray">
-                                Close
-                            </Button>
-                        </Dialog.Close>
-                    </Flex>
-                </Dialog.Content>
-            </Dialog.Root>
+        <>
             {is_selected_route ? (
-                <Route co={co} route={route} bound={bound} service={service} stop={stop}setSearchParams={setSearchParams} setError={setError} get_bus_company_info={get_bus_company_info} />
+                <Route co={co} route={route} bound={bound} service={service} stop={stop} setSearchParams={setSearchParams} get_bus_company_info={get_bus_company_info} />
             ) : (
                 <Flex direction="column" gap="0">
-                    <Heading size="8" weight="light" align="center" m="1">
+                    <Heading size="8" weight="light" align="center" m="1" id="title-bus">
                         巴士幾時到
                     </Heading>
                     <SearchBar q={q} setSearchParams={setSearchParams} />
-                    <DataTable q={q} get_bus_company_info={get_bus_company_info}setSearchParams={setSearchParams} />
+                    <DataTable q={q} get_bus_company_info={get_bus_company_info} setSearchParams={setSearchParams} />
                 </Flex>
             )}
-        </Container>
+        </>
     );
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import { Container, Text, Separator, Flex, Heading, Tooltip } from "@radix-ui/themes";
+import { Text, Separator, Flex, Heading, Tooltip } from "@radix-ui/themes";
 import "./banner.css";
 
 export default function Banner({ type, setSearchParams }) {
     return (
         <>
-            <Container size="2" id="banner" mt="1" mb="8">
+            <div id="banner">
                 <nav>
                     <Flex align="center" width="auto" justify="between" mb="2">
                         <Tooltip content="About this project">
@@ -26,7 +26,7 @@ export default function Banner({ type, setSearchParams }) {
                     </Flex>
                     <Separator size="4" />
                 </nav>
-            </Container>
+            </div>
         </>
     );
 }

@@ -24,11 +24,15 @@ export default function NowRouteInfo({ co, route, bound, service, nowRoute, setS
         <>
             {Object.keys(nowRoute).length !== 0 ? (
                 <>
-                    <Flex direction="row" align="center" justify="center" gap="5">
+                    <Flex direction="row" align="center" justify="center" gap="5" id="now-route-info">
                         <Heading id="now-route-num">{nowRoute.route ?? ""}</Heading>
-                        <Heading id="now-route-dest">{nowRoute.dest_tc ?? ""}</Heading>
+                        <div className="scrolling-text-container">
+                            <Heading id="now-route-dest" className="scrolling-text">
+                                {nowRoute.dest_tc ?? ""}
+                            </Heading>
+                        </div>
 
-                        <Tooltip content="切換方向">
+                        <Tooltip content="調轉方向">
                             <button onClick={handle_swap_bound}>
                                 <Text trim="both" as="div" id="icon-swap_vert" className="material-symbols-outlined" state={rotate ? "loading" : ""}>
                                     swap_vert

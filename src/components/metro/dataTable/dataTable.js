@@ -20,14 +20,7 @@ export default function DataTable({ setSearchParams }) {
                                 <Flex gap="1" justify="between" align="center">
                                     <div className={"mtr-line-color " + i["Line Code"].toLowerCase()} />
                                     <Text size="6">{i["Chinese Name"]}</Text>
-                                    <Text
-                                        trim="both"
-                                        id="icon-navigate-next"
-                                        className="material-symbols-outlined"
-                                        style={{
-                                            color: i["color"],
-                                        }}
-                                    >
+                                    <Text trim="both" id="icon-navigate-next" className="material-symbols-outlined">
                                         navigate_next
                                     </Text>
                                 </Flex>
