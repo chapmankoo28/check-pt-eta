@@ -27,22 +27,22 @@ For up-to-date information, please visit the official website.
 ### For Bus
 
 1. Search the route you want to check
-1. 搜尋您想查詢的巴士路線
+   搜尋您想查詢的巴士路線
 2. Choose the route
-2. 選擇路線
+   選擇路線
 
 ![bus search page](src/res/img/bus_2.jpg)
 
 3. Choose the stop
-3. 選擇巴士站
+   選擇巴士站
 
 You can:
 您可以：
 
 - Swap the route direction
-- 調䡛方向
+  調䡛方向
 - Get the latest ETA
-- 取得最新的ETA
+  取得最新的ETA
 
 ![bus stop list](src/res/img/bus_3.jpg)
 
@@ -50,19 +50,19 @@ You can:
 ### For Metro
 
 1. Choose the line you want to check
-1. 選擇您想查詢的路線
+   選擇您想查詢的路線
 
 ![metro line page](src/res/img/mtr_1.jpg)
 
 2. Choose the stop
-2. 選擇地鐵站
+   選擇地鐵站
 
 You can:
 
 - Swap the line direction
-- 調䡛方向
+  調䡛方向
 - Get the latest ETA
-- 取得最新的ETA
+  取得最新的ETA
 
 ![metro stop list](src/res/img/mtr_2.jpg)
 
