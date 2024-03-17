@@ -12,7 +12,7 @@
     font-size: 2rem;
     width: 2.3em;
     text-align: center;
-    font-family: "Oswald";
+    font-variation-settings: "wght" 500,"wdth" 50;
 }
 
 .bus-co-color {

@@ -8,23 +8,10 @@ a {
     border: 1px solid red;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
     #main-container {
         width: 100%;
         margin: auto;
-    }
-
-    .ScrollAreaRoot {
-        user-select: none;
-        -webkit-user-select: none;
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .ScrollAreaViewport {
-        width: 100%;
-        height: 100%;
-        border-radius: inherit;
     }
 }
 
@@ -32,65 +19,8 @@ a {
 
 @media (min-width: 1024px) {
     #main-container {
-        width: 30vw;
+        width: 600px;
         margin: auto;
-    }
-
-    .ScrollAreaRoot.bus {
-        height: 67vh;
-    }
-
-    .ScrollAreaRoot {
-        user-select: none;
-        -webkit-user-select: none;
-        width: 100%;
-        height: 72vh;
-        overflow: hidden;
-        --scrollbar-size: 8px;
-    }
-
-    .ScrollAreaViewport {
-        width: 100%;
-        height: 100%;
-        border-radius: inherit;
-    }
-
-    .ScrollAreaScrollbar {
-        display: flex;
-        /* ensures no selection */
-        user-select: none;
-        /* disable browser handling of all panning and zooming gestures on touch devices */
-        touch-action: none;
-        padding: 2px;
-        transition: background 160ms ease-in-out;
-    }
-
-    .ScrollAreaScrollbar[data-orientation="vertical"] {
-        width: var(--scrollbar-size);
-    }
-
-    .ScrollAreaScrollbar[data-orientation="horizontal"] {
-        flex-direction: column;
-        height: var(--scrollbar-size);
-    }
-
-    .ScrollAreaThumb {
-        flex: 1;
-        background: var(--mauve-10);
-        border-radius: var(--scrollbar-size);
-        position: relative;
-    }
-
-    .ScrollAreaThumb::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
-        min-width: 44px;
-        min-height: 44px;
     }
 }
 
@@ -152,11 +82,11 @@ h3 {
 }
 
 .AccordionContent[data-state="open"] {
-    animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+    animation: slideDown 300ms cubic-bezier(1, 0, 0, 1);
 }
 
 .AccordionContent[data-state="closed"] {
-    animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+    animation: slideUp 300ms cubic-bezier(1, 0, 0, 1);
 }
 
 @keyframes rotate {
@@ -169,16 +99,6 @@ h3 {
     }
 }
 
-#icon-expand_more {
-    font-size: 2rem;
-    transition: transform 300ms ease-in-out;
-    padding: 10px;
-    border-radius: 18px;
-}
-
-#icon-expand_more:hover {
-    background-color: var(--gray-5);
-}
 
 .AccordionTrigger[data-state="open"]>.AccordionTriggerContent>#icon-expand_more {
     transform: rotate(180deg);
@@ -205,13 +125,26 @@ h3 {
 }
 
 .eta-min {
-    font-family: "Oswald";
+    font-variation-settings: "wght" 600, "wdth" 50;
+}
+
+#icon-expand_more {
+    font-size: 2rem;
+    transition: transform 300ms cubic-bezier(1, 0, 0, 1);
+    padding: 10px;
+    border-radius: 18px;
+    user-select: none;
+}
+
+#icon-expand_more:hover {
+    background-color: var(--gray-5);
 }
 
 #icon-refresh {
     cursor: pointer;
     padding: 10px;
     border-radius: 18px;
+    user-select: none;
 }
 
 #icon-refresh:hover {
@@ -219,6 +152,5 @@ h3 {
 }
 
 .stop-seq {
-    font-family: "Oswald";
-    font-weight: 400;
+    font-variation-settings: "wght" 600, "wdth" 50;
 }

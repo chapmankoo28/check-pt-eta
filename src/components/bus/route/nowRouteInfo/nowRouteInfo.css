@@ -1,7 +1,6 @@
 #now-route-num {
-    font-family: "Oswald";
+    font-variation-settings: "wght" 500,"wdth" 50;
     font-size: 3.2rem;
-    font-weight: 400;
 }
 
 #now-route-dest {

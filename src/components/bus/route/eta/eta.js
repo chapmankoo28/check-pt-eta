@@ -16,14 +16,19 @@ export default function ETA({ co, route, bound, service, stop }) {
     const time = `${hr}:${min}:${sec}`;
 
     const get_eta = async (co, route, service, stop) => {
-        console.log("CALLED get_eta");
+        console.count("CALLED get_eta");
         try {
-            const api = api_config.data.find((item) => item.co.toLowerCase() === co.toLowerCase()) ?? {};
+            const api =
+                api_config.data.find(
+                    (item) => item.co.toLowerCase() === co.toLowerCase(),
+                ) ?? {};
 
-            const url = `${api["base_url"]}${api["api"]["eta"]}${stop.toUpperCase()}/${route.toUpperCase()}/`;
+            const url = `${api["base_url"]}${
+                api["api"]["eta"]
+            }${stop.toUpperCase()}/${route.toUpperCase()}/`;
             const s = co.toLowerCase() === "kmb" ? service : "";
 
-            console.log(url + s);
+            console.count(url + s);
 
             const response = await fetch(url + s);
 
@@ -40,21 +45,30 @@ export default function ETA({ co, route, bound, service, stop }) {
     };
 
     const get_filtered_eta_data = async (isMounted) => {
-        console.log("CALLED get_filtered_eta_data");
+        console.count("CALLED get_filtered_eta_data");
         try {
             const data = await get_eta(co, route, service, stop);
             if (isMounted) {
-                const eta = data.filter((i) => i.dir === bound.toUpperCase()) ?? [];
+                const eta =
+                    data.filter((i) => i.dir === bound.toUpperCase()) ?? [];
                 if (eta.length !== 0) setEtaData(eta);
                 if (eta.length === 0) {
-                    setEtaData(data.filter((i) => i.dir === (bound.toUpperCase() === "O" ? "I" : "O")) ?? []);
+                    setEtaData(
+                        data.filter(
+                            (i) =>
+                                i.dir ===
+                                (bound.toUpperCase() === "O" ? "I" : "O"),
+                        ) ?? [],
+                    );
                 }
-                // console.log("Filtered ETA", etaData);
                 setLoading(false);
             }
         } catch (error) {
             if (isMounted) {
-                console.error("ERROR: fetching filtered eta data. Info:", error);
+                console.error(
+                    "ERROR: fetching filtered eta data. Info:",
+                    error,
+                );
                 setLoading(false);
                 setError(true);
             }
@@ -66,8 +80,14 @@ export default function ETA({ co, route, bound, service, stop }) {
         setLoading(true);
 
         get_filtered_eta_data(isMounted);
+        const interval = setInterval(
+            () => get_filtered_eta_data(isMounted),
+            60000,
+        );
+
         return () => {
-            isMounted = false;
+            clearInterval(interval);
+            // isMounted = false;
         };
     }, [co, route, bound, service, stop]);
 
@@ -77,7 +97,13 @@ export default function ETA({ co, route, bound, service, stop }) {
                 <Text>最後更新時間：{time}</Text>
                 <Tooltip content="更新">
                     <button onClick={get_filtered_eta_data}>
-                        <Text trim="both" as="div" className="material-symbols-outlined" id="icon-refresh" state={loading ? "loading" : "done"}>
+                        <Text
+                            trim="both"
+                            as="div"
+                            className="material-symbols-outlined"
+                            id="icon-refresh"
+                            state={loading ? "loading" : "done"}
+                        >
                             autorenew
                         </Text>
                     </button>
@@ -91,23 +117,51 @@ export default function ETA({ co, route, bound, service, stop }) {
                     etaData.map((i, count) => {
                         if (!i.eta && i.rmk_tc) {
                             return (
-                                <Heading size="5" weight="light" m="auto" align="center">
+                                <Heading
+                                    size="5"
+                                    weight="light"
+                                    m="auto"
+                                    align="center"
+                                >
                                     {i.rmk_tc}
                                 </Heading>
                             );
                         } else if (!i.eta && !i.rmk_tc) {
                             return (
-                                <Heading size="5" weight="light" m="auto" align="center">
+                                <Heading
+                                    size="5"
+                                    weight="light"
+                                    m="auto"
+                                    align="center"
+                                >
                                     暫無班次
                                 </Heading>
                             );
                         }
-                        const eta_in_min = Math.ceil((new Date(i.eta) - now) / 1000 / 60);
+                        const eta_in_min = Math.ceil(
+                            (new Date(i.eta) - now) / 1000 / 60,
+                        );
                         return (
                             <>
-                                <Separator key={"separator" + count + i.seq + i.eta_seq} orientation="horizontal" size="4" />
-                                <Flex key={btoa("eta", i.seq, count)} direction="row" gap="3" justify="between" align="center">
-                                    <Flex direction="column" gap="1" align="start">
+                                <Separator
+                                    key={
+                                        "separator" + count + i.seq + i.eta_seq
+                                    }
+                                    orientation="horizontal"
+                                    size="4"
+                                />
+                                <Flex
+                                    key={btoa("eta", i.seq, count)}
+                                    direction="row"
+                                    gap="3"
+                                    justify="between"
+                                    align="center"
+                                >
+                                    <Flex
+                                        direction="column"
+                                        gap="1"
+                                        align="start"
+                                    >
                                         <Flex gap="1" align="baseline">
                                             <Text size="2">往</Text>
                                             <Text size="5">{i.dest_tc}</Text>
@@ -118,7 +172,9 @@ export default function ETA({ co, route, bound, service, stop }) {
                                     </Flex>
                                     <Flex gap="2" align="baseline">
                                         <Text size="7" className="eta-min">
-                                            {eta_in_min > 0 ? eta_in_min : "即將抵達"}
+                                            {eta_in_min > 0
+                                                ? eta_in_min
+                                                : "即將抵達"}
                                         </Text>
                                         {eta_in_min > 0 && <Text>分鐘</Text>}
                                     </Flex>

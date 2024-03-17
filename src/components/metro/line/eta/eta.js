@@ -16,7 +16,7 @@ export default function ETA({ line, dir, station, now_line }) {
 
     const get_eta = async (line, station) => {
         if (!line || !station) return {};
-        console.log("CALLED get_eta", line, station);
+        console.count("CALLED get_eta", line, station);
         try {
             const api =
                 api_config.data.find((i) => {
@@ -25,7 +25,7 @@ export default function ETA({ line, dir, station, now_line }) {
             // console.log(api);
             const url = `${api["base_url"]}${api["api"]["line"]}${line}&${api["api"]["sta"]}${station}&${api["api"]["lang"]}TC/`;
 
-            console.log(url);
+            console.count(url);
 
             const response = await fetch(url);
 
@@ -34,7 +34,7 @@ export default function ETA({ line, dir, station, now_line }) {
             }
 
             const result = await response.json();
-            console.log(result.data[`${line}-${station}`]);
+            // console.log(result.data[`${line}-${station}`]);
             return result.data[`${line}-${station}`];
         } catch (error) {
             console.error("ERROR: fetching stop data. Info:", error);
@@ -44,13 +44,12 @@ export default function ETA({ line, dir, station, now_line }) {
 
     const get_filtered_eta_data = async (isMounted) => {
         const DIR_MAP = { DT: "DOWN", UT: "UP" };
-        console.log("CALLED get_filtered_eta_data");
+        console.count("CALLED get_filtered_eta_data");
         try {
             const data = await get_eta(line, station);
             if (isMounted) {
                 const eta = data[DIR_MAP[dir]] ?? [];
                 setEtaData(eta);
-                console.log("Filtered ETA", etaData);
                 setLoading(false);
             }
         } catch (error) {
@@ -85,9 +84,14 @@ export default function ETA({ line, dir, station, now_line }) {
         let isMounted = true;
         setLoading(true);
         get_filtered_eta_data(isMounted);
+        const interval = setInterval(
+            () => get_filtered_eta_data(isMounted),
+            30000,
+        );
 
         return () => {
-            isMounted = false;
+            clearInterval(interval);
+            // isMounted = false;
         };
     }, [line, dir, station]);
 
