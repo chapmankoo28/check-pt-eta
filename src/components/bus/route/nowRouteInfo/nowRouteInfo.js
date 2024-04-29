@@ -26,8 +26,8 @@ export default function NowRouteInfo({ co, route, bound, service, nowRoute, setS
                 <>
                     <Flex direction="row" align="center" justify="center" gap="5" id="now-route-info">
                         <Heading id="now-route-num">{nowRoute.route ?? ""}</Heading>
-                        <div className="scrolling-text-container">
-                            <Heading id="now-route-dest" className="scrolling-text">
+                        <div>
+                            <Heading id="now-route-dest">
                                 {nowRoute.dest_tc ?? ""}
                             </Heading>
                         </div>
