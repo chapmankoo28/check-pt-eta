@@ -23,9 +23,7 @@ export default function ETA({ co, route, bound, service, stop }) {
                     (item) => item.co.toLowerCase() === co.toLowerCase(),
                 ) ?? {};
 
-            const url = `${api["base_url"]}${
-                api["api"]["eta"]
-            }${stop.toUpperCase()}/${route.toUpperCase()}/`;
+            const url = `${api["base_url"]}${api["api"]["eta"]}${stop.toUpperCase()}/${route.toUpperCase()}/`;
             const s = co.toLowerCase() === "kmb" ? service : "";
 
             console.count(url + s);
@@ -55,9 +53,7 @@ export default function ETA({ co, route, bound, service, stop }) {
                 if (eta.length === 0) {
                     setEtaData(
                         data.filter(
-                            (i) =>
-                                i.dir ===
-                                (bound.toUpperCase() === "O" ? "I" : "O"),
+                            (i) => i.dir === (bound.toUpperCase() === "O" ? "I" : "O"),
                         ) ?? [],
                     );
                 }

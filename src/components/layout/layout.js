@@ -9,26 +9,27 @@ export default function Layout() {
     const [searchParams, setSearchParams] = useSearchParams({ type: "bus" });
     const type = searchParams.get("type").trim() ?? "";
 
-    if (type === "bus") {
-        return (
-            <>
-                <Banner type={type} setSearchParams={setSearchParams} />
-                <Bus />
-            </>
-        );
-    } else if (type === "metro") {
-        return (
-            <>
-                <Banner type={type} setSearchParams={setSearchParams} />
-                <Metro />
-            </>
-        );
-    } else {
-        return (
-            <>
-                <Banner type={type} setSearchParams={setSearchParams} />
-                <NotFound />
-            </>
-        );
+    switch (type) {
+        case "bus":
+            return (
+                <>
+                    <Banner type={type} setSearchParams={setSearchParams} />
+                    <Bus />
+                </>
+            );
+        case "metro":
+            return (
+                <>
+                    <Banner type={type} setSearchParams={setSearchParams} />
+                    <Metro />
+                </>
+            );
+        default:
+            return (
+                <>
+                    <Banner type={type} setSearchParams={setSearchParams} />
+                    <NotFound />
+                </>
+            );
     }
 }
