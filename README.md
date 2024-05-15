@@ -36,7 +36,7 @@ For up-to-date information, please visit the official website.
 3. Choose the stop
    選擇巴士站
 
-![bus stop list](src/res/img/bus_3.gif)
+![bus stop list](src/res/img/bus_3.png)
 
 -   You can swap the route direction
     您可以調轉方向
