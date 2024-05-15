@@ -1,16 +1,1 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&display=swap');
-
-@font-face {
-    font-family: "Albert Sans";
-    src: url("../../res/font/AlbertSans-Roman[wdth,wght].woff2") format("woff2");
-    font-weight: 100 900;
-    font-stretch: normal;
-}
-
-@font-face {
-    font-family: "Albert Sans";
-    src: url("../../res/font/AlbertSans-Italic[wdth,wght].woff2") format("woff2");
-    font-style: italic;
-    font-weight: 100 900;
-    font-stretch: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap');
