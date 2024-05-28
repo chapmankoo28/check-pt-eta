@@ -49,3 +49,19 @@
         transform: rotate(0deg);
     }
 }
+
+#info-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#info-link:hover {
+    text-decoration: underline;
+}
+
+#icon-open-in-new {
+    vertical-align: baseline;
+    font-size: 1em;
+    line-height: 1;
+}
