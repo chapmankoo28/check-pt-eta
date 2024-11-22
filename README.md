@@ -6,7 +6,7 @@ Check ETA is a React app that allows users to check the estimated time of arriva
 
 This app can check the ETA of these companies for now:
 
-此應用程式現時可查詢以下公司的預計到達時間：
+本應用程式現可查詢以下公司的ETA：
 
 -   [KMB](https://www.kmb.hk/)
 -   [LWB](https://www.kmb.hk/)
@@ -14,20 +14,20 @@ This app can check the ETA of these companies for now:
 -   [MTR](https://www.mtr.com.hk/ch/customer/main/index.html)
 
 This app uses data from [data.gov.hk(資料一線通)](https://data.gov.hk/).
-Please note that this application is currently under development, and the information provided may be indicative.
-For up-to-date information, please visit the official website.
+Please note that the information provided may be indicative as this application is still under development.
+For up-to-date information, please visit their official website.
 
-此應用程式的資料來源為[data.gov.hk(資料一線通)](https://data.gov.hk/)。
-資料謹供參考，請前往各公司網站查詢最新資訊。
+本應用程式的資料來源為[data.gov.hk(資料一線通)](https://data.gov.hk/)。
+資料僅供參考。請前往各公司網站查詢最新資訊。
 
 ## Usage
 
 ![image of the home page](src/res/img/bus_1.png)
 
-### For Bus
+### For Bus 查詢巴士
 
 1. Search the route you want to check
-   搜尋您想查詢的巴士路線
+   搜尋想查詢的巴士路線
 2. Choose the route
    選擇路線
 
@@ -39,11 +39,11 @@ For up-to-date information, please visit the official website.
 ![bus stop list](src/res/img/bus_3.png)
 
 -   You can swap the route direction
-    您可以調轉方向
+    可以調轉方向
 -   ETA will be updated every 60 sec. You can also get the latest ETA by clicking the update button.
-    ETA 每六十秒自動更新一次，您亦可以手動取得最新的 ETA
+    ETA 每六十秒自動更新一次，亦可以手動取得最新的 ETA
 
-### For Metro
+### For Metro 查詢地鐵
 
 1. Choose the line you want to check
    選擇您想查詢的路線
@@ -56,9 +56,9 @@ For up-to-date information, please visit the official website.
 ![metro stop list](src/res/img/mtr_2.png)
 
 -   You can swap the line direction
-    您可以調轉方向
+    可以調轉方向
 -   ETA will be updated every 30 sec. You can also get the latest ETA by clicking the update button.
-    ETA 每三十秒自動更新一次，您亦可以手動取得最新的 ETA
+    ETA 每三十秒自動更新一次，亦可以手動取得最新的 ETA
 
 ## Acknowledgments
 
