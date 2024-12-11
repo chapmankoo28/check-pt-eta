@@ -15,26 +15,29 @@ export default function Route({ co, route, bound, service, stop, setSearchParams
     const [loading, setLoading] = useState(true);
     const [stopNames, setStopNames] = useState({});
 
-    const get_stop_list = useCallback(async (co, route, bound, service) => {
+    const get_stop_list = useCallback(async (co, route, bound, service, abortSignal) => {
         console.log("CALLED get_stop_list");
         // if (Object.keys(get_route_info(co, route, bound, service) ?? {}).length === 0) return [];
         try {
-            const api = api_config.data.find((item) => item.co.toLowerCase() === co.toLowerCase()) ?? {};
-
-            const b = bound.toLowerCase() === "o" ? "outbound" : "inbound";
-            const url = `${api["base_url"]}${api["api"]["route-stop"]}${route.toUpperCase()}/${b}/`;
-            const s = co.toLowerCase() === "kmb" ? service : "";
-
-            const response = await fetch(url + s);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            if (abortSignal){
+                const api = api_config.data.find((item) => item.co.toLowerCase() === co.toLowerCase()) ?? {};
+                
+                const b = bound.toLowerCase() === "o" ? "outbound" : "inbound";
+                const url = `${api["base_url"]}${api["api"]["route-stop"]}${route.toUpperCase()}/${b}/`;
+                const s = co.toLowerCase() === "kmb" ? service : "";
+                
+                const response = await fetch(url + s);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const result = await response.json();
+                console.log("STOP LIST", result);
+                return result.data;
             }
-            const result = await response.json();
-            console.log("STOP LIST", result);
-            return result.data;
         } catch (error) {
             console.error("ERROR: fetching stop data. Info:", error);
         }
+        return []
     }, []);
 
     const get_route_info = useCallback((co, route, bound, service) => {
@@ -56,61 +59,67 @@ export default function Route({ co, route, bound, service, stop, setSearchParams
         return res;
     }, []);
 
-    const get_stop_name_tc = useCallback(async (co, stopID) => {
+    const get_stop_name_tc = useCallback(async (co, stopID, abortSignal) => {
         console.log("CALLED get_stop_name_tc");
         if (!co || !stopID) return "";
         try {
-            const api = api_config.data.find((item) => item.co.toUpperCase() === co.toUpperCase()) ?? {};
-            const url = `${api.base_url}${api["api"]["stop"]}${stopID.toUpperCase()}`;
-            // console.log(api, url);
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            if (abortSignal){
+                const api = api_config.data.find((item) => item.co.toUpperCase() === co.toUpperCase()) ?? {};
+                const url = `${api.base_url}${api["api"]["stop"]}${stopID.toUpperCase()}`;
+                // console.log(api, url);
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const result = await response.json();
+                console.log("STOP INFO", result);
+                return result.data.name_tc ?? "";
             }
-            const result = await response.json();
-            console.log("STOP INFO", result);
-            return result.data.name_tc ?? "";
         } catch (error) {
             console.error("ERROR: fetching stop name. Info:", error);
         }
+        return ""
     }, []);
 
     useEffect(() => {
-        let isMounted = true;
+        const abortController = new AbortController();
+        const signal = abortController.signal;
         setLoading(true);
+    
         const fetchStopData = async () => {
             try {
                 setNowRoute(get_route_info(co, route, bound, service) ?? {});
-                const data = await get_stop_list(co, route, bound, service);
-                if (isMounted) {
-                    setStopData(data ?? []);
-
-                    const fetchNamesPromises = (data ?? []).map((stop) => get_stop_name_tc(co, stop.stop));
-
-                    const names = await Promise.all(fetchNamesPromises);
-                    const namesObject = names.reduce((acc, name, index) => {
-                        acc[data[index].stop] = name;
-                        return acc;
-                    }, {});
-
-                    setStopNames(namesObject);
-                    setLoading(false);
-                }
+                const data = await get_stop_list(co, route, bound, service, signal);
+                setStopData(data ?? []);
+    
+                const fetchNamesPromises = (data ?? []).map((stop) => 
+                    get_stop_name_tc(co, stop.stop, signal)
+                );
+    
+                const names = await Promise.all(fetchNamesPromises);
+                const namesObject = names.reduce((acc, name, index) => {
+                    acc[data[index].stop] = name;
+                    return acc;
+                }, {});
+    
+                setStopNames(namesObject);
+                setLoading(false);
             } catch (error) {
-                if (isMounted) {
+                if (error.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                } else {
                     console.error("ERROR: fetching stop data. Info:", error);
-                    // Here you could set an error state and display an error message
                     setLoading(false);
                 }
             }
         };
-
+    
         fetchStopData();
-
+    
         return () => {
-            isMounted = false;
+            abortController.abort();
         };
-    }, [co, route, bound, service]);
+    }, [co, route, bound, service, get_route_info, get_stop_list, get_stop_name_tc]);
 
     return (
         <>
@@ -130,7 +139,7 @@ export default function Route({ co, route, bound, service, stop, setSearchParams
                                             <>
                                                 {stopData.map((i, count) => (
                                                     <>
-                                                        <Card asChild className="AccordionCard ">
+                                                        <Card asChild className="AccordionCard " key={"stop" + i.stop + count}>
                                                             <button
                                                                 onClick={() => {
                                                                     setSearchParams(
@@ -142,7 +151,7 @@ export default function Route({ co, route, bound, service, stop, setSearchParams
                                                                     );
                                                                 }}
                                                             >
-                                                                <Accordion.Item id={i.stop} className="AccordionItem" value={i.stop} key={btoa("stop" + i.stop + count)}>
+                                                                <Accordion.Item id={i.stop} className="AccordionItem" value={i.stop}>
                                                                     <Accordion.Header className="AccordionHeader">
                                                                         <Accordion.Trigger className="AccordionTrigger">
                                                                             <Flex direction="row" gap="3" className="AccordionTriggerContent" align="center" justify="between">

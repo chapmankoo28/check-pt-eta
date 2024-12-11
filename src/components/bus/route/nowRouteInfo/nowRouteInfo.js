@@ -46,7 +46,7 @@ export default function NowRouteInfo({ co, route, bound, service, nowRoute, setS
                         "https://mobile.citybus.com.hk/nwp3/?f=1&dsmode=1&l=0&ds=" + route)} rel="noreferrer">
                         <div id="info-link">
                             按此查詢巴士公司網站之資料
-                            <span class="material-symbols-outlined" id="icon-open-in-new">
+                            <span className="material-symbols-outlined" id="icon-open-in-new">
                                 open_in_new
                             </span>
                         </div>

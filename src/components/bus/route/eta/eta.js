@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Flex, Text, Heading, Tooltip, Separator } from "@radix-ui/themes";
 import Loading from "../../../loading/loading";
 import api_config from "../../../../res/json/api_config.json";
@@ -42,7 +42,7 @@ export default function ETA({ co, route, bound, service, stop }) {
         }
     };
 
-    const get_filtered_eta_data = async (isMounted) => {
+    const get_filtered_eta_data = useCallback(async (isMounted) => {
         console.count("CALLED get_filtered_eta_data");
         try {
             const data = await get_eta(co, route, service, stop);
@@ -69,29 +69,38 @@ export default function ETA({ co, route, bound, service, stop }) {
                 setError(true);
             }
         }
-    };
+    }, [bound, co, route, service, stop]);
 
     useEffect(() => {
-        let isMounted = true;
+        const abortController = new AbortController();
         setLoading(true);
-
-        get_filtered_eta_data(isMounted);
-        const interval = setInterval(
-            () => get_filtered_eta_data(isMounted),
-            60000,
-        );
-
+    
+        const get_filtered_eta_data_with_signal = async () => {
+            try {
+                await get_filtered_eta_data(abortController.signal);
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                } else {
+                    console.error('Error fetching data:', error);
+                }
+            }
+        };
+    
+        get_filtered_eta_data_with_signal();
+        const interval = setInterval(get_filtered_eta_data_with_signal, 60000);
+    
         return () => {
             clearInterval(interval);
-            // isMounted = false;
+            abortController.abort();
         };
-    }, [co, route, bound, service, stop]);
+    }, [co, route, bound, service, stop, get_filtered_eta_data]);
 
     return (
         <Flex direction="column" gap="2">
             <Flex gap="2" justify="between" align="center" mt="5" mb="1">
                 <Text>最後更新時間：{time}</Text>
-                <Tooltip content="更新">
+                <Tooltip content="更新" key={"updated_time"}>
                     <button onClick={get_filtered_eta_data}>
                         <Text
                             trim="both"
@@ -134,9 +143,7 @@ export default function ETA({ co, route, bound, service, stop }) {
                                 </Heading>
                             );
                         }
-                        const eta_in_min = Math.ceil(
-                            (new Date(i.eta) - now) / 1000 / 60,
-                        );
+                        const eta_in_min = Math.ceil((new Date(i.eta) - now) / 1000 / 60);
                         return (
                             <>
                                 <Separator
@@ -147,7 +154,7 @@ export default function ETA({ co, route, bound, service, stop }) {
                                     size="4"
                                 />
                                 <Flex
-                                    key={btoa("eta", i.seq, count)}
+                                    key={"eta"+ i.seq + count}
                                     direction="row"
                                     gap="3"
                                     justify="between"
