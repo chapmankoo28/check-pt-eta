@@ -14,11 +14,10 @@ This app can check the ETA of these companies for now:
 -   [MTR](https://www.mtr.com.hk/ch/customer/main/index.html)
 
 This app uses data from [data.gov.hk(資料一線通)](https://data.gov.hk/).
-Please note that the information provided may be indicative as this application is still under development.
-For up-to-date information, please visit their official website.
+For the latest information, please visit their official website above.
 
 本應用程式的資料來源為[data.gov.hk(資料一線通)](https://data.gov.hk/)。
-資料僅供參考。請前往各公司網站查詢最新資訊。
+資料僅供參考。請前往上述各公司的網站查詢最新資訊。
 
 ## Usage
 
